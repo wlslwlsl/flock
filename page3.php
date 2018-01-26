@@ -1,5 +1,8 @@
 #page3 interface
 #Product Progress
+# 스코어 별로 아이템을 나타냄
+# 해당 클래스로 디시젼 트리를 만들것인지 판단
+# 클래스 추가가 필요할 시 추가
 
 <!doctype html>
 <html>
