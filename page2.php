@@ -1,5 +1,6 @@
 #page2 interface
 #item classification class
+#생성된 클래스로 해당 아이템을 분류
 
 <?php
 	$connect = mysqli_connect('localhost','root','1234','elevenstreet');
