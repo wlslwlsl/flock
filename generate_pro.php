@@ -1,4 +1,4 @@
-#database connect descript&class
+#database connect descript, class
 
 <?php
 	$connect = mysqli_connect('localhost','root','1234','flock');
