@@ -1,5 +1,6 @@
 #page4 interface
 #decision tree
+# 스코어를 보고 디시젼 트리를 생성하도록 함
 
 <!doctype html>
 <html>
