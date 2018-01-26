@@ -153,26 +153,15 @@ function removeRow() {
   oTbl.deleteRow(oTbl.clickedRowIndex);
 }
 
-function generate(descript)
+function generate()
 {
-	if(confirm("generate class??")==true){ 
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-			    resultMsg = jQuery.parseJSON(xmlhttp.responseText);
-			}
-		};
-		xmlhttp.open("POST", "generate_pro.php", false);
-		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.send("descript=" + encodeURIComponent(descript));
-		//alert("save!!!!!");
-		location.href="page2.php";
-	}
-	else{
-		location.href="page1.php";
-		return false;
-	}
+	var check = confirm("generate class??");
 
+      	  if(check == true) location.href="page2.php";
+      	  else {
+		alert("restart");
+ 		location.href = "page1.php";
+   }
  }
 function project_selected() {
 	var obj = document.getElementById('selpro');
@@ -224,7 +213,7 @@ function project_selected() {
             <tr style="border-color:white">
 	<td colspan="5" style="border-color:white"><input type="text" id="text1" name="class" value="YES" onfocus="this.value=''"> : <input type="text" id="text2" name="disclass" value="네, 이것은 입는 것입니다." onfocus="this.value=''"></td></tr></table><br><br>
 	</td><tr></table><br>
-<input type="submit" id = "submit" value="Generate" onclick="generate(.['text0'].)"><br>
+<button type="button" id = "submit" onclick="generate();">Generate</button><br>
 	</td>
    </tr>
   </table> 
@@ -294,5 +283,3 @@ function project_selected() {
 </form>
  </body>
  </html>
- 
- 
