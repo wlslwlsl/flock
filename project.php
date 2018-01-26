@@ -1,4 +1,5 @@
 #generate new project interface
+# 프로젝트를 새로 생성할 시 이동하는 인터페이스
 
 <!doctype html>
 <html>
