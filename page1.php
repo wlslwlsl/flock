@@ -4,6 +4,15 @@
 #게시글을 통한 다른 사용자의 활용시각화
 #프로젝트 생성
 
+<?php
+	$connect = mysqli_connect('localhost','root','1234','flock');
+ 	if (mysqli_connect_errno()){
+    	echo "MySQL 연결 오류 : " . mysqli_connect_error();
+ 	} 
+	mysqli_query($connect,"UPDATE project SET p_num = 0");
+	
+        mysqli_close($connect);
+?>
 <!doctype html>
 <html>
  <head>
@@ -91,7 +100,7 @@
   width:100%;
   transition:800ms ease all;
 }
-.button {
+#button {
    border: 1px solid #375d73;
    background: #70a4c7;
    background: -webkit-gradient(linear, left top, left bottom, from(#2e688f), to(#70a4c7));
@@ -114,7 +123,7 @@
    text-decoration: none;
    vertical-align: middle;
    }
-.button:hover {
+#button:hover {
    border: 1px solid #6dbeed;
    text-shadow: #b2c8d6 0 1px 0;
    background: #afc9db;
@@ -126,7 +135,7 @@
    background-image: -ms-linear-gradient(top, #7bbce8 0%, #afc9db 100%);
    color: #e7ecf0;
    }
-.button:active {
+#button:active {
    text-shadow: #1e4158 0 1px 0;
    border: 1px solid #0a3c59;
    background: #65a9d7;
@@ -157,30 +166,10 @@ function removeRow() {
   oTbl.deleteRow(oTbl.clickedRowIndex);
 }
 
-function generate()
-{
-	var check = confirm("generate class??");
-
-      	  if(check == true) location.href="page2.php";
-      	  else {
-		alert("restart");
- 		location.href = "page1.php";
-   }
- }
-function project_selected() {
-	var obj = document.getElementById('selpro');
-	var index = obj.selectedIndex;
-	var value = obj.options[index].value;
-	var text = obj.options[index].text;
-
-	if(index == 1) location.href="page1.php";
-      	  else if(index == 2) location.href="page1_2.php";
-		else location.href="page1_3.php";
-}
 </script>
  </head>
  <body >
-<form name="form" method="post">
+<form action="generate_pro.php" method="post">
  <div>
  <table id="top" border="0" width="1000" height="100" cellpadding="0" cellspacing="0">
   <tr>
@@ -200,14 +189,14 @@ function project_selected() {
 	<tr>
 	<td style="border-color:white">
 	<div id="content">* 질문을 작성해 주시기 바랍니다.</div><br>
-	<input type="text" onfocus="this.value=''" id="text0" name="discription" value="이 아이템은 입는 것입니까?"><br><br><br>
+	<input type="text" onfocus="this.value=''" id="text0" name="descript" value="이 아이템은 입는 것입니까?"><br><br><br>
 	</td>
 	</tr>
 	</table>
 	<table width="1000" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr style="border-color:white">
 	<td colspan="5" style="border-color:white">
-	<div id="content">* 예측 클래스를 작성해 주시기 바랍니다.    <input name="addButton" class='button' type="button" style="cursor:hand" onClick="insRow()" value="추가">
+	<div id="content">* 예측 클래스를 작성해 주시기 바랍니다.    <input name="class" class='button' type="button" style="cursor:hand" onClick="insRow()" value="추가">
          <font color="#FF0000">*</font> class add click!! </div><br>
 	</td>
 	</tr>
@@ -217,7 +206,7 @@ function project_selected() {
             <tr style="border-color:white">
 	<td colspan="5" style="border-color:white"><input type="text" id="text1" name="class" value="YES" onfocus="this.value=''"> : <input type="text" id="text2" name="disclass" value="네, 이것은 입는 것입니다." onfocus="this.value=''"></td></tr></table><br><br>
 	</td><tr></table><br>
-<button type="button" id = "submit" onclick="generate();">Generate</button><br>
+<button type="submit" id="submit"> generate </button><br>
 	</td>
    </tr>
   </table> 
@@ -229,16 +218,19 @@ function project_selected() {
 			  <td align="center" width="45">조회수 </td>
 	  </tr>
  <?php
-        require_once('db_connect.php');
+       $connect = mysqli_connect('localhost','root','1234','flock');
+ 	if (mysqli_connect_errno()){
+    		echo "MySQL 연결 오류 : " . mysqli_connect_error();
+ 	 } 
 		
-		 // GET/POST로 전달된 값 획득
+	// GET/POST로 전달된 값 획득
         $page = $_GET[page];
  
         // 게시글 리스트가 모두 몇 페이지가 될지 계산
         $num_records_per_page = 5;  // 한 페이지에 표시될 레코드 수 설정
    
        // 전체 레코드 수 알아내기
-       $sql = "select * from notice";
+       $sql = "select * from project";
        $result = mysqli_query($connect, $sql);
        $num_records = mysqli_num_rows($result);
    
@@ -249,7 +241,7 @@ function project_selected() {
        $start = ($page - 1) * $num_records_per_page;// 출력을 시작할 첫번째 레코드 위치
  
       // 현재 페이지의 레코드들 읽기
-       $sql =  "select * from notice order by num desc";
+       $sql =  "select * from project order by num desc";
        $sql .= " limit $start, $num_records_per_page";
        $result = mysqli_query($connect, $sql);
 	   $i=0;
@@ -266,8 +258,8 @@ function project_selected() {
       {
           echo "<tr>
                     <td id='short' align=center>$row[num]</td>
-                    <td id='short' ><a href='view6.php?num=$row[num]&page=$page'>$row[title]</a></td>
-                    <td id='short' align=center>$row[name]</td>
+                    <td id='short' ><a href='view6.php?num=$row[num]&page=$page'>$row[descript]</a></td>
+                    <td id='short' align=center>$row[class]</td>
                    <td id='short' align=center>$row[hits]</td>
                 </tr>"; 
        $i=$i+1;
@@ -286,4 +278,4 @@ function project_selected() {
 </div>
 </form>
  </body>
-</html>
+ </html>
