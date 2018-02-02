@@ -2,13 +2,7 @@
 #item classification class
 #생성된 클래스로 해당 아이템을 분류
 
-<?php
-	$connect = mysqli_connect('localhost','root','1234','elevenstreet');
- 	if (mysqli_connect_errno()){
-    		echo "MySQL 연결 오류 : " . mysqli_connect_error();
- 	 } 
 
-?>
 <!doctype html>
 <html>
  <head>
@@ -100,7 +94,7 @@
   width:100%;
   transition:800ms ease all;
 }
-.button {
+#button {
    border: 1px solid #375d73;
    background: #70a4c7;
    background: -webkit-gradient(linear, left top, left bottom, from(#2e688f), to(#70a4c7));
@@ -123,7 +117,7 @@
    text-decoration: none;
    vertical-align: middle;
    }
-.button:hover {
+#button:hover {
    border: 1px solid #6dbeed;
    text-shadow: #b2c8d6 0 1px 0;
    background: #afc9db;
@@ -135,7 +129,7 @@
    background-image: -ms-linear-gradient(top, #7bbce8 0%, #afc9db 100%);
    color: #e7ecf0;
    }
-.button:active {
+#button:active {
    text-shadow: #1e4158 0 1px 0;
    border: 1px solid #0a3c59;
    background: #65a9d7;
@@ -182,20 +176,33 @@ function complete()
 	 </td>
 	</tr>
   </table>
-<img src="home/flock/page1.PNG"><br><br>
-  	<span id="content">
-	* 질문 : 이 아이템은 입는 것입니까?<br><br>
-	
-	* 예측 클래스 <br><br>
-	- YES : 네, 이것은 입는 것입니다.<br>
-	- NO : 아니요, 이것은 입을 수 없는 것입니다.<br>
-	</span><br><br>
+<table border="0" >
+   <tr> 
+    <td colspan="5">
+	<table width="1000" align="center">
+<?php
+	$connect = mysqli_connect('localhost','root','1234','flock');
+ 	if (mysqli_connect_errno()){
+    		echo "MySQL 연결 오류 : " . mysqli_connect_error();
+ 	 } 
+	$pro = mysqli_query($connect,"SELECT descript,class FROM project WHERE p_num != 0");
+	echo "<tr id='tr'> <th id='th'>descript</th> <th id='th'>classes</th> </tr>";
+	while ($rows = mysqli_fetch_array($pro))
+	{
+		echo "<tr>";
+		echo "<td id='td'>".$rows['descript']."</td>";
+		echo "<td id='td'>".$rows['class']."</td>";
+		echo "</tr>";
+        };
+?>
+</table>
+</td></tr></table><br><br>
 <table border="0" cellpadding=0 cellspacing =0>
 <?php
-
+	
 	$result = mysqli_query($connect, "select id,title,price,seller,imgsrc from product order by rand() limit 10");
 	
-	echo "<tr id='tr'> <th id='th'>id</th> <th id='th'>title</th> <th id='th'>price</th> <th id='th'>seller</th> <th id='th'>img</th> <th id='th'>class</th></tr>";
+	echo "<tr id='tr'> <th id='th'>id</th> <th id='th'>title</th> <th id='th'>price</th> <th id='th'>seller</th> <th id='th'>img</th> <th id='th'>classes</th></tr>";
  
        while ($row = mysqli_fetch_array($result))
       {
@@ -205,7 +212,7 @@ function complete()
 	echo "<td id='td'>".$row['price']."</td>";
 	echo "<td id='td'>".$row['seller']."</td>";
 	echo "<td id='td'> <img src=".$row['imgsrc']." width='300'></td>";
-	echo "<td id='td'><input class='button' type='button' style='cursor:hand' value= 'YES'> <input class='button' type='button' style='cursor:hand' value='NO' ></td>";
+	echo "<td id='td'><input type='submit' id='button' value='YES'></td>";
 	echo "</tr>";
        }
  mysqli_close($connect);
@@ -213,8 +220,9 @@ function complete()
 </table><br><br>
 <span id="progress">Progress : 150  /  200 ( 75% )</span>
 <button type="button" id = "submit" onclick="difItem() ">다른 아이템 분류</button>
-<button type="button" id = "submit" onclick="complete()">complete</button><br>
+<button type="submit" id = "submit" onclick="complete()">complete</button><br>
 </table>
 </div>
  </body>
  </html>
+
